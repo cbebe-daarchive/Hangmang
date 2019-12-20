@@ -31,7 +31,9 @@ void loop(){
   setColor(170, 0, Max_Brightness);
   delay(Delay);
   // Turn Sequence Off
-  setColor(0, 0, 0);
+  digitalWrite(Red_Pin, LOW)
+  digitalWrite(Green_Pin, LOW)
+  digitalWrite(Blue_Pin, LOW)
   delay(Long_Delay);
 
   // Fades Red to Blue

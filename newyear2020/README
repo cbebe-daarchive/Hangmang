@@ -1,0 +1,17 @@
+Wiring instructions
+
+Main function
+
+Pin 8 <--> Passive Buzzer <--> 100 Ohm R <--> GND
+Pin 10 <--> Pushbutton <--> GND
+
+Visuals
+
+Pin 22 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 23 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 24 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 25 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 26 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 27 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 28 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
+Pin 29 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND

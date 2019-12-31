@@ -2,79 +2,73 @@
 bool is2020 = false;
 
 void clearLEDs() {
+  // diplay is Common Cathode => HIGH = OFF
   for (int i = 42; i <= 45; i++) {
     digitalWrite(i,HIGH);
   }
 }
 void setup() {
   // initializes pinMode for pins 10 and 12 and pull up resistors
-  pinMode(10,INPUT);
-  pinMode(12,INPUT);
-  digitalWrite(10,HIGH);
-  digitalWrite(12,HIGH);
+  pinMode(10,INPUT); digitalWrite(10,HIGH);
+  pinMode(12,INPUT); digitalWrite(12,HIGH);
   // initializes the LED pins
   for (int i = 22; i <= 29; i++) {
-    pinMode(i,OUTPUT);
-    digitalWrite(i,LOW);
+    pinMode(i,OUTPUT); pinMode(i+24,OUTPUT);
+    digitalWrite(i,LOW); digitalWrite(i+24,LOW);
   }
   // initializes the digit pins
   for (int i = 42; i <= 45; i++) {
     pinMode(i,OUTPUT);
-  }
-  // initializes the segment pins
-  for (int i = 46; i <= 53; i++) {
-    pinMode(i,OUTPUT);
-    digitalWrite(i,LOW);
   }
 }
 void writeOn7Seg(int digit, int number) {
                     //D1,D2,D3,D4
   int digitPins[4] = {42,43,44,45};
                   //A, B, C, D, E, F, G, dp
-  int segPins[8] = {51,53,49,47,46,52,50,48};
-  int numZero[8] = {1,1,1,1,1,1,0,0};
-  int numOne[8] = {0,1,1,0,0,0,0,0};
-  int numTwo[8] = {1,1,0,1,1,0,1,0};
-  int numThree[8] = {1,1,1,1,0,0,1,0};
-  int numFour[8] = {0,1,1,0,0,1,1,0};
-  int numFive[8] = {1,0,1,1,0,1,1,0};
-  int numNine[8] = {1,1,1,1,0,1,1,0};
+  int segPins[8] = {51,53,49,47,46,52,50,48};  
   clearLEDs();
   digitalWrite(digitPins[digit-1], LOW);
   switch (number) {
     case 0:
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numZero[i]);
+        int segs[8] = {1,1,1,1,1,1,0,0};
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     case 1:
+      int segs[8] = {0,1,1,0,0,0,0,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numOne[i]);
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     case 2:
+      int segs[8] = {1,1,0,1,1,0,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numTwo[i]);
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     case 3:
+      int segs[8] = {1,1,1,1,0,0,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numThree[i]);
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     case 4:
+      int segs[8] = {0,1,1,0,0,1,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numFour[i]);
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     case 5:
+      int segs[8] = {1,0,1,1,0,1,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numFive[i]);
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     case 9:
+      int segs[8] = {1,1,1,1,0,1,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], numNine[i]);
+        digitalWrite(segPins[i], segs[i]);
       }
       break;
     default:
@@ -114,6 +108,7 @@ void playNote(int note,int dur) {
   // plays tone on pin 8 with given duration
   tone(8,frequencies[note],dur);
   int delayCount = 0;
+  // displays 2020 while the tone is playing, this is the only way
   while (delayCount < dur) {
     writeOn7Seg(1,2);
     delay(1);
@@ -142,11 +137,9 @@ void playAuldLangSyne() {
                   2,3,1,2,2,3,1,2,2,3,1,2,2,6,
                   2,3,1,2,2,3,1,2,1,1,3,1,2,2,};
   for (int i = 0; i < 58; i++) {
-    // turns on the corresponding LED when note is played
     digitalWrite(LEDArray[note[i]], HIGH);
     // one eighth note in 133.5 bpm is 225 ms
     playNote(note[i],beat[i]*225);
-    // turns it off
     digitalWrite(LEDArray[note[i]], LOW);
   }
 }
@@ -181,16 +174,10 @@ void lick() {
   }
 }
 void countDown() {
-  writeOn7Seg(2,5); delay(700);
-  clearLEDs(); delay(300);
-  writeOn7Seg(2,4); delay(700);
-  clearLEDs(); delay(300);
-  writeOn7Seg(2,3); delay(700);
-  clearLEDs(); delay(300);
-  writeOn7Seg(2,2); delay(700);
-  clearLEDs(); delay(300);
-  writeOn7Seg(2,1); delay(700);
-  clearLEDs(); delay(300);
+  for (int i = 5; i > 0; i--){
+    writeOn7Seg(2,i); delay(700);
+    clearLEDs(); delay(300);
+  }
 }
 void flash2020() {
   for (int i = 0; i < 3; i++) {
@@ -222,8 +209,11 @@ void loop() {
     For auld lang syne, my jo, for auld lang syne,
     We'll tak a cup of kindness yet, for auld lang syne.
     */
-    if (isWack) {playWack();
-    } else {playAuldLangSyne();}
+    if (isWack) {
+      playWack();
+    } else {
+      playAuldLangSyne();
+    }
     lick();
   }
   // Happy New Year man

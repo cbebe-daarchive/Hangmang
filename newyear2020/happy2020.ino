@@ -25,50 +25,50 @@ void writeOn7Seg(int digit, int number) {
                     //D1,D2,D3,D4
   int digitPins[4] = {42,43,44,45};
                   //A, B, C, D, E, F, G, dp
-  int segPins[8] = {51,53,49,47,46,52,50,48};  
+  int segPins[8] = {51,53,49,47,46,52,50,48};
+  int numZero[8] = {1,1,1,1,1,1,0,0};
+  int numOne[8] = {0,1,1,0,0,0,0,0};
+  int numTwo[8] = {1,1,0,1,1,0,1,0};
+  int numThree[8] = {1,1,1,1,0,0,1,0};
+  int numFour[8] = {0,1,1,0,0,1,1,0};
+  int numFive[8] = {1,0,1,1,0,1,1,0};
+  int numNine[8] = {1,1,1,1,0,1,1,0};
   clearLEDs();
   digitalWrite(digitPins[digit-1], LOW);
   switch (number) {
     case 0:
       for (int i = 0; i < 8; i++) {
-        int segs[8] = {1,1,1,1,1,1,0,0};
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numZero[i]);
       }
       break;
     case 1:
-      int segs[8] = {0,1,1,0,0,0,0,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numOne[i]);
       }
       break;
     case 2:
-      int segs[8] = {1,1,0,1,1,0,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numTwo[i]);
       }
       break;
     case 3:
-      int segs[8] = {1,1,1,1,0,0,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numThree[i]);
       }
       break;
     case 4:
-      int segs[8] = {0,1,1,0,0,1,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numFour[i]);
       }
       break;
     case 5:
-      int segs[8] = {1,0,1,1,0,1,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numFive[i]);
       }
       break;
     case 9:
-      int segs[8] = {1,1,1,1,0,1,1,0};
       for (int i = 0; i < 8; i++) {
-        digitalWrite(segPins[i], segs[i]);
+        digitalWrite(segPins[i], numNine[i]);
       }
       break;
     default:

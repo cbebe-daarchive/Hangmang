@@ -108,16 +108,9 @@ void playNote(int note,int dur) {
   // plays tone on pin 8 with given duration
   tone(8,frequencies[note],dur);
   int delayCount = 0;
-  // displays 2020 while the tone is playing, this is the only way
+  // displays 2020 while the tone is playing
   while (delayCount < dur) {
-    writeOn7Seg(1,2);
-    delay(1);
-    writeOn7Seg(2,0);
-    delay(1);
-    writeOn7Seg(3,2);
-    delay(1);
-    writeOn7Seg(4,0);
-    delay(1);
+    write2020();
     delayCount += 4;
   }
 }
@@ -164,13 +157,15 @@ void playWack() {
 
 void lick() {
   // pa da da da dum doo wah
+  int LEDArray[5] = {22,23,24,25,26};
   int note[8] = {4,5,8,6,4,5,3,4};
   int beat[8] = {4,2,4,2,1,5,4,6};
+  // because the lights are remapped
   int LEDs[8] = {1,2,3,4,1,2,0,1};
   for (int i = 0; i < 8; i++) {
-    digitalWrite(22+LEDs[i],HIGH);
+    digitalWrite(LEDArray[LEDs[i]],HIGH);
     playNote(note[i],beat[i]*63);
-    digitalWrite(22+LEDs[i],LOW);
+    digitalWrite(LEDArray[LEDs[i]],LOW);
   }
 }
 void countDown() {

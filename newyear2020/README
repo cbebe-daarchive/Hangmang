@@ -4,14 +4,34 @@ Main function
 
 Pin 8 <--> Passive Buzzer <--> 100 Ohm R <--> GND
 Pin 10 <--> Pushbutton <--> GND
+Pin 12 <--> Pushbutton <--> GND
 
 Visuals
 
-Pin 22 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 23 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 24 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 25 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 26 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 27 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 28 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 100 Ohm R <--> GND
-Pin 29 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 100 Ohm R <--> GND
+Note LEDs
+Pin 22 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 23 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 24 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 25 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 26 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 27 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 28 <--> Red LED (longer pin) <--> Red LED (shorter pin) <--> 330 Ohm R <--> GND
+Pin 29 <--> Green LED (longer pin) <--> Green LED (shorter pin) <--> 330 Ohm R <--> GND
+
+4-Digit 7-segment LEDs
+
+Digit Pins
+Pin 42 <--> 100 Ohm R <--> 5461AS Pin 12
+Pin 43 <--> 100 Ohm R <--> 5461AS Pin 9
+Pin 44 <--> 100 Ohm R <--> 5461AS Pin 8
+Pin 45 <--> 100 Ohm R <--> 5461AS Pin 6
+
+Segment Pins
+Pin 46 <--> 5461AS Pin 1
+Pin 47 <--> 5461AS Pin 2
+Pin 48 <--> 5461AS Pin 3
+Pin 49 <--> 5461AS Pin 4
+Pin 50 <--> 5461AS Pin 5
+Pin 51 <--> 5461AS Pin 11
+Pin 52 <--> 5461AS Pin 10
+Pin 53 <--> 5461AS Pin 7

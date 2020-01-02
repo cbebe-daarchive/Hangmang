@@ -48,7 +48,6 @@ void loop(){
   
 }
 
-// Bruh wtf is this lmao
 
 void setColor(int Red_Value, int Green_Value, int Blue_Value){
   analogWrite(Red_Pin, Red_Value);

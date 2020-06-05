@@ -1,0 +1,415 @@
+Producing the ubuntu VM for CMPUT 274-275
+Version 2.2
+2017-01-08
+
+There are these main things that need to be setup for the Cmput 274/275
+Ubuntu VM:
+    general linux environment
+    arduino tool chain
+    python 3 environment
+
+* General linux environment
+    - Shell rc files and extra directories
+        mkdir ~/tmp ~/bin
+
+    - umask is set to 0077 to avoid accidental exposure of files
+    on transfer to another file system
+
+    - check that interactive safe forms of cp,rm,mv,ln are in place
+    by doing a 
+        alias
+
+    - install the safe aliases and .rc files from rcfiles in ~/Distrib
+
+    VIM Editing environments:
+    - install vim and gvim using the software center
+    - install .vimrc from Distrib
+    - make sure vi-fmt is in ~/bin, and install Text::Autoformat
+        sudo cpan
+        install Text::Autoformat
+
+    Gnome desktop
+    gconftool-2 -R /desktop/gnome 
+    gconftool-2 -R /
+
+    Enable Remote file system
+    - install sshfs
+        sudo apt-get install sshfs
+    - then the ccid-mount and ccid-unmount commands can be used to mount
+    on the ~/srv directory.
+
+    Issues:
+        sshfs szepesva@gpu.srv.ualberta.ca:/afs/ualberta.ca/home/s/z/szepesva \
+            ~/srv -o umask=0077
+        the umask=0077 option on the sshfs command seems to get confused
+        and always makes the simple file executable.  If you use umask=0177
+        then directories are not executable.
+
+        the file system remains mounted if you logout.  This is a major
+        security issue on a running or suspended vm.  The gdm PostSession
+        capability is not present in 16.04  The 16.04 manager is unity
+        which is a compiz module, 
+        lightdm is the display manager, see https://wiki.ubuntu.com/LightDM
+
+    Desktop etc.
+    - turn off screen saver and locking, you are already inside a
+    windows environment!
+    - disable guest session login, see lightdm stuff below
+
+    - turn on clock synchronization.
+
+    - probably want to make sure ssh daemon isn't running since the
+    machine password is well known.
+
+    - Change appearance general to show menu in title bar.
+        System Settings -> Appearance -> Behaviour 
+            Show Menus in window title bar
+            Menus Visibility always displayed
+
+* Arduino tool chain
+
+    - get the latest ide from www.arduino.cc (actually this is probably
+        not what you want to do, you just want the current arduino-ua)
+    - get the libc bin mkfiles etc files
+
+    - install YAML for Perl using cpan
+        cd
+        sudo bash
+        cpan
+        install YAML
+        exit
+
+    test if installed by doing
+    perl -e 'use YAML;'
+
+    - install minicom 2.6.1 using the Ubuntu software center
+
+    - allow access to the /dev/ttyACM* series of ports by adding user to
+    the dialout group:
+        sudo adduser cmput274 dialout
+    you need to logout and in again to get the groups updated.  
+
+    To list your current group memberships, use the
+    groups command.
+
+    - using the software center install OpenJDK Java runtime so that the 
+    Arduino IDE can be used.
+        java -version
+        sudo apt-get install default-jdk
+
+    - Try compiling something from arduino-ua/exmaples
+
+* Install Python
+
+    Install pip
+        sudo apt-get install python3-pip
+        pip3 install --upgrade pip
+
+    Install the python serial package
+        pip search pyserial
+        python3 -m pip install pyserial
+        pip3 install pyserial
+
+    Test with the pyserial in 
+        Distrib/VM-setup/Tests/pyserial/
+    the very useful textserial.py is also defined there
+
+* Install the Atom editor environment
+    sudo add-apt-repository ppa:webupd8team/atom
+    sudo apt-get update
+    sudo apt-get install atom
+
+    Configure Atom
+        Edit->Preferences->Editor
+        You probably want to make sure "Show Indent Guide" and "Show
+        Line Numbers" are checked, and check that Tab Length is 2
+
+    Install extra plugins
+        https://atom.io/packages/linter-flake8
+        https://atom.io/packages
+        https://atom.io/packages/atom-terminal
+        https://atom.io/packages/script
+        https://atom.io/packages/atom-beautify
+        https://atom.io/packages/platformio-ide-terminal
+
+    Atom plugins can be turned on and off with
+        Settings -> Packages 
+
+    apm view atom-terminal
+    apm install atom-terminal
+    apm view platformio-ide-terminal
+    apm install platformio-ide-terminal
+    apm view script
+    apm install script
+
+    Install autopep8 before beautify
+        pip3 install autopep8
+    See
+        http://stackoverflow.com/questions/14328406/tool-to-convert-python-code-to-be-pep8-compliant
+    Test with
+        autopep8 py_file --in-place
+
+    apm view atom-beautify
+    apm install atom-beautify
+
+    pip3 install flake8
+    pip3 install flake8-docstrings
+    pip3 install hacking
+    apm view linter-flake8
+    apm install linter-flake8
+
+    Disable anonymous Google analytics in beautify?
+    You can open the Settings View by navigating to 
+        Edit > Preferences (Linux), 
+        Atom > Preferences (OS X), or 
+        File > Preferences (Windows).
+    Go into Packages and search for "Atom Beautify" package. Find the
+    option "Analytics User Id" and change it to your desired
+    configuration.
+
+* The graphviz drawing package and documentation
+
+    go to:
+        http://www.graphviz.org
+    or more specifically 
+        http://www.graphviz.org/Download_linux_ubuntu.php
+    and fetch
+        UB13.10.i386
+            graphviz_2.38.0-1~saucy_i386.deb
+            graphviz-doc_2.38.0-1~saucy_all.deb
+    or something similar
+
+    Clicking on the link will ask you to launch the installer.
+    After install there will be a program called
+        /usr/bin/dot
+    and documentation in 
+        /share/graphviz/doc
+
+    Test it with the code in
+        examples/other/graphviz/run-gv-test
+    Note how it uses xdg-open to start eog.
+    
+
+* Setting up TestCenter
+
+    get test center from Distrib
+    
+    Install python3 tkinter
+        sudo apt-get install python3-tk
+
+* Installing pygame
+
+    See instructions in 
+        http://www.pygame.org/wiki/CompileUbuntu
+    If you get an error, run the following and try again.
+        sudo apt-get update --fix-missing
+
+    #install dependencies
+
+    sudo apt-get install mercurial python3-dev python3-setuptools \
+        python3-numpy python3-opengl libav-tools libsdl-image1.2-dev \
+        libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev \
+        libsdl1.2-dev libportmidi-dev libswscale-dev libavformat-dev \
+        libavcodec-dev libtiff5-dev libx11-6 libx11-dev \
+        fluid-soundfont-gm timgm6mb-soundfont xfonts-base \
+        xfonts-100dpi xfonts-75dpi xfonts-cyrillic fontconfig \
+        fonts-freefont-ttf
+ 
+    # Grab source
+    hg clone https://bitbucket.org/pygame/pygame
+ 
+    # Finally build and install
+    cd pygame
+    python3 setup.py build
+    sudo python3 setup.py install
+ 
+    # Run some tests
+    python3 -m pygame.tests
+    python3 -m pygame.examples.aacircle
+    python3 -m pygame.examples.aliens
+    python3 -m pygame.examples.freetype_misc
+    python3 -m pygame.examples.glcube
+    python3 -m pygame.examples.sound
+    python3 -m pygame.examples.stars
+
+* Examples
+
+Re-organized examples directory
+~/examples/arduino - is the old arduino-ua/examples directory
+~/examples/python - is a new python examples directory
+~/examples/other - examples for various other applications, like graphviz
+~/examples should probably be a git repository
+    NEED to put in .gitignore for __pycache__ and build-cli
+    
+* Final cleanup before shipping
+
+    bin/find-osx-dstore to locate all the OSX .dstore files for removal
+
+    remove ~/arduino_port*
+
+    Firefox settings: 
+        Security ->
+            don't remember logins
+        Advanced ->
+            disable health reports and crash reporter
+
+    Unity settigns
+        Settings -> Privacy
+            clear the usage information
+            disable diagnostics
+
+    Empty the apt cache (/var/cache/apt) with
+        apt-get clean
+    Remove 
+        ~/.cache/mozilla
+        .ssh/known_hosts
+    Clear cookies etc in mozilla
+    Remove any shared file system
+    Remove all snapshots
+    Take a snapshot
+
+After VM is shutdown, remove the log files in the vm directory.
+
+Tar gz the file, and compute a sha256 signature
+    shasum -a 256 cmput274_vm_2017.vmwarevm-2017-01-07.tgz
+
+
+Appendix:
+.  
+* (OPTIONAL) Install ipython3-notebook was also installed.
+    It seems to be called "The Jupyter Notebook"
+    http://jupyter.org/
+    http://ipython.readthedocs.io/en/stable/
+
+* Python virtual environment (Optional)
+    pip3 install virtualenv
+    pip3 install virtualenvwrapper
+
+* Enable bash file name completion (Usually enabled)
+    See 
+        https://embraceubuntu.com/2006/01/28/turn-on-bash-smart-completion/
+
+* How to modify the arduino distrib to have the ua extensions:
+
+Not necessary if you use the UA distribution, just for reference.
+
+- Ubuntu: install avr-libc-1.7.1: go into the distrib:
+    arduino-1.0.1/hardware/tools/avr/lib/avr
+rename the existing include and lib
+    mv include{,-orig}
+    mv lib{,-orig}
+and make these symlinks to the libc overlay
+    ln -s ../../../../../../avr-libc-1.7.1-overlay/include .
+    ln -s ../../../../../../avr-libc-1.7.1-overlay/lib .
+
+- OSX: install avr-libc-1.7.1: go into the distrib:
+    Arduino.app/Contents/Resources/Java/hardware/tools/avr/avr
+rename the existing include and lib
+    mv include{,-orig}
+    mv lib{,-orig}
+and make these symlinks to the libc overlay
+    ln -s ../../../../../../../../avr-libc-1.7.1-overlay/include .
+    ln -s ../../../../../../../../avr-libc-1.7.1-overlay/lib .
+
+- install ua libraries: go into distrib
+    arduino-1.0.1/libraries
+and 
+    unzip ~/arduino-ua/distrib/ualib.zip
+
+* DISPLAY MANAGER CONTROL
+
+Add some cmput272.conf customizations to 
+    /etc/lightdm/lightdm.conf.d/*.conf
+in the file
+    cmput274.conf
+[SeatDefaults] is now called [Seat:*]:
+
+Disable guest login
+    [SeatDefaults]
+    allow-guest=false
+
+Adding System Hooks
+
+If you need some special behaviour when X servers and user sessions
+start/stop you can set commands to be run with the following
+configuration:
+
+[SeatDefaults]
+display-setup-script=command
+display-stopped-script=command (Not in Ubuntu 12.04 LTS)
+greeter-setup-script=command
+session-setup-script=command
+session-cleanup-script=command
+session-wrapper=command
+greeter-wrapper=command (Not in Ubuntu 12.04 LTS)
+
+display-setup-script is run after the X server starts but before the
+user session / greeter is run. Set this if you need to configure
+anything special in the X server. It is run as root. If this command
+returns an error code the X server is stopped.
+
+display-stopped-script is run after an X server exits. It is run as
+root.
+
+greeter-setup-script is run before a greeter starts. It is run as root.
+If this command returns an error code the greeter fails to start (which
+will cause LightDM to stop).
+
+session-setup-script is run before a user session starts. If this
+command returns an error the session will not start (user is returned to
+a greeter).
+
+session-cleanup-script is run after a greeter or user session stops. It
+is run as root.
+
+session-wrapper is a the command to run for a session. This command is
+run as the user and needs to exec the command passed in the arguments to
+complete running the session. Use this if you need to do special setup
+for a user session. Note the default is 'lightdm-session' so you should
+chain to this if you need to override this setting.
+
+greeter-wrapper is a the command to run a greeter. It is the equivalent
+of session-wrapper for greeters.
+
+* Ubuntu recover mode
+
+https://wiki.ubuntu.com/RecoveryMode
+
+Booting into recovery mode
+
+    Switch on your computer.
+
+    Wait until the BIOS has finished loading, or has almost finished.
+    (During this time you will probably see a logo of your computer
+    manufacturer.) Quickly press and hold the Shift key, which will
+    bring up the GNU GRUB menu. (If you see the Ubuntu logo, you've
+    missed the point where you can enter the GRUB menu.)
+
+    Select the line which starts with "Advanced options".
+
+    Select the line ending with "(recovery mode)", probably the second
+    line, something like:
+
+    Ubuntu GNU/Linux, with Linux 3.8.0-26-generic (recovery mode)
+
+    Press Return and your machine will begin the boot process.
+
+    After a few moments, your workstation should display a menu with a
+    number of options. One of the options (you may need to scroll down
+    to the bottom of the list) will be "Drop to root shell prompt".
+    Press Return with this option highlighted.
+
+    The root partition is mounted read-only. To mount it read/write,
+    enter the command
+
+    mount -o remount,rw /
+
+    If you have /home, /boot, /tmp, or any other mount point on a
+    separate partition, you can mount them with the command
+
+    mount --all
+
+    (This must be done following step 8 so that /etc/mtab is writable.)
+    Alternatively, you could try selecting "Enable networking" in step
+    7, though this has been found to cause the system to hang (see
+    https://bugs.launchpad.net/ubuntu/+source/friendly-recovery/+bug/981792).

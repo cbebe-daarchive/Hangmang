@@ -1,0 +1,28 @@
+# OSX is case insensitive so you need upper and lower case variants
+# all 4 possible!
+rm_cmd='rm -i'
+cp_cmd='cp -i'
+mv_cmd='mv -i'
+ln_cmd='ln -i'
+
+# lower case
+alias rm=$rm_cmd
+alias cp=$cp_cmd
+alias mv=$mv_cmd
+alias ln=$ln_cmd
+
+# upper case versions
+alias RM=$rm_cmd
+alias CP=$cp_cmd
+alias MV=$mv_cmd
+alias LN=$ln_cmd
+
+# mixed case versions
+alias rM=$rm_cmd
+alias cP=$cp_cmd
+alias mV=$mv_cmd
+alias lN=$ln_cmd
+alias Rm=$rm_cmd
+alias Cp=$cp_cmd
+alias Mv=$mv_cmd
+alias Ln=$ln_cmd

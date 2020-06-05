@@ -1,0 +1,21 @@
+digraph structure {
+ ordering=out;
+ node [height=.1];
+140308413018760 [shape=record, height=.1, label="{ \<class 'tuple'\> | { <f0> 0\n* | <f1> 1\n* | <f2> 2\n* | <f3> 3\n* | <f4> 4\n42 | <f5> 5\n* } }"];
+140308412999048 [shape=record, height=.1, label="{ \<class '__main__.CC'\> | { <f0> '_xxx'\n* | <f1> '_yyy'\n* }   }"];
+140308412533896 [shape=record, height=.1, label="{ \<class 'set'\> | { <f0> 0\n1 | <f1> 1\n2 | <f2> 2\n3 } }"];
+140308412565448 [shape=record, height=.1, label="{ \<class 'list'\> | { <f0> 0\n33 | <f1> 1\n44 | <f2> 2\n55 | <f3> 3\n66 } }"];
+140308412565320 [shape=record, height=.1, label="{ \<class 'list'\> | { <f0> 0\n\<class 'function'\> 140308412647080 | <f1> 1\n* } }"];
+140308412233048 [shape=record, height=.1, label="{ \<class 'dict'\> | { <f0> 2\n55 | <f1> 'a'\n33 | <f2> 'b'\n44 }   }"];
+140308412240200 [shape=record, height=.1, label="{ \<class 'list'\> | { <f0> 0\n42 } }"];
+140308412534120 [shape=record, height=.1, label="{ \<class 'set'\> | { <f0> 0\n'x' } }"];
+140308412991600 [shape=record, height=.1, label="{ \<class 'tuple'\> | { <f0> 0\n42 | <f1> 1\n43 | <f2> 2\n44 } }"];
+140308413018760:<f0> -> 140308412999048;
+140308412999048:<f0> -> 140308412533896;
+140308412999048:<f1> -> 140308412565448;
+140308413018760:<f1> -> 140308412565320;
+140308412565320:<f1> -> 140308412233048;
+140308413018760:<f2> -> 140308412240200;
+140308413018760:<f3> -> 140308412534120;
+140308413018760:<f5> -> 140308412991600;
+}

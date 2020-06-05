@@ -1,0 +1,2 @@
+Add a grep to the make file to detect !!! in source code.
+Add a test to see if the boot loader version needs a reflash

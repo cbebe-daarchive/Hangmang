@@ -1,0 +1,5 @@
+# safe aliases for ubuntu and any other case sensitive system
+rm_cmd='rm -i'
+cp_cmd='cp -i'
+mv_cmd='mv -i'
+ln_cmd='ln -i'

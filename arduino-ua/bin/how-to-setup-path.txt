@@ -1,0 +1,41 @@
+In the unix world, you need to set the PATH environment variable to
+point to the places where programs and shell scripts are located.
+
+Since we use the bash shell, the main place that you add additional locations
+to your path is in the ~/.bash_profile which is run once when you log in.
+
+For a standard arduino-ua install, where the arduino-ua directory is located
+in your home directory, you need to have this in your .bash_profile
+    export PATH="~/arduino-ua/bin:$PATH"
+
+Make sure your terminal runs as a login shell so that the .bash_profile is
+executed when you open a new terminal.
+
+As a general safety measure, you should have safe aliases set up for your
+shell environment to prevent you from accidently clobbering your work.  These
+aliases have the '-i' option turned on to make the commands interactive.
+
+If you are in OSX, then you want to put the .bash_aliases_osx file into your
+home directory, and add the lines
+    . ~/.bash_aliases_osx 
+    . ~/.bashrc
+to your .bash_profile.
+
+NOTE: the files have a . (period) added to the beginning of their name, thus
+making them "hidden", and only visible through the "ls -a" option.
+
+If you are in ubuntu, then the same pattern applies, although .bashrc
+actually loads your .bash_aliases file, so you can get away with just the
+setting of PATH in your .bash_profile.  Doing both does not hurt
+    . ~/.bash_aliases 
+    . ~/.bashrc
+
+
+Finally, if you have located arduino-ua in a different place, then you
+need to set the ARDUINO_UA_ROOT environment variable.  Suppose that you
+have put it in the 'frameworks' directory in your home.  Then you need
+to do this instead:
+    export ARDUINO_UA_ROOT="frameworks"
+    export PATH="$ARDUINO_UA_ROOT/arduino-ua/bin:$PATH"
+
+Examples of all of these are in the misc directory here.

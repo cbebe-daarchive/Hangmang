@@ -1,0 +1,100 @@
+#!/bin/bash
+# map serial ports to internal ports 0 and 1
+
+export PORT_CONFIG_0="$HOME/.arduino_port_0"
+export PORT_CONFIG_1="$HOME/.arduino_port_1"
+export LOCK_DIR="/tmp"
+export PORT_LCK_0="$HOME/.arduino_port_lck_0"
+export PORT_LCK_1="$HOME/.arduino_port_lck_1"
+export MINICOM_CONFIG_0="$HOME/.minirc.0"
+export MINICOM_CONFIG_1="$HOME/.minirc.1"
+export MINICOM_CONFIG_DFL="$HOME/.minirc.dfl"
+
+# remove the config files
+rm -f "$PORT_CONFIG_0"
+rm -f "$PORT_LCK_0"
+rm -f "$PORT_CONFIG_1"
+rm -f "$PORT_LCK_1"
+
+if [ `uname -s` == 'Darwin' ]
+then
+    export PORTS='/dev/tty.usbmodem* /dev/tty.usbserial*'
+else
+    export PORTS='/dev/ttyACM*'
+fi
+
+
+# bash has a nullglob option so that no match returns '' not the pattern, cool!
+if test -n "$(shopt -s nullglob; echo $PORTS)"
+then
+    echo Found devices: $PORTS
+else
+    echo No $PORTS devices!
+    exit 1
+fi
+PORTS="$PORTS skip"
+
+echo "Select Arduino Port 0"
+select PORT in $PORTS
+do
+
+    if [ "$PORT" == 'skip' ] 
+    then
+        echo Port 0 not assigned
+        break;
+    fi
+    
+    echo "$PORT" > "$PORT_CONFIG_0"
+
+    # substitution! lock_file=${lock_file//\//.}
+
+    # manufacture lock file name
+    # remove /dev/ and add LCK
+    export lock_file=`expr "$PORT" : '\/dev\/\(.*\)'`
+    lock_file="LCK..$lock_file"
+    echo "$LOCK_DIR/$lock_file" > "$PORT_LCK_0"
+
+    cat > "$MINICOM_CONFIG_0" <<EOF
+# Machine-generated file - use setup menu in minicom to change parameters.
+pu port             $PORT
+pu lock             $LOCK_DIR
+pu baudrate         9600
+pu rtscts           No
+EOF
+    cat "$PORT_CONFIG_0" > "$MINICOM_CONFIG_DFL"
+    break
+    done
+
+echo "Select Arduino Port 1"
+select PORT in $PORTS
+do
+    if [ "$PORT" == 'skip' ] 
+    then
+        echo Port 1 not assigned
+        break;
+    fi
+    echo "$PORT" > "$PORT_CONFIG_1"
+
+    # manufacture lock file name
+    # remove /dev/ and add LCK
+    export lock_file=`expr "$PORT" : '\/dev\/\(.*\)'`
+    lock_file="LCK..$lock_file"
+    echo "$LOCK_DIR/$lock_file" > "$PORT_LCK_1"
+    
+    cat > "$MINICOM_CONFIG_1" <<EOF
+# Machine-generated file - use setup menu in minicom to change parameters.
+pu port             $PORT
+pu lock             $LOCK_DIR
+pu baudrate         9600
+pu rtscts           No
+EOF
+    break
+    done
+
+echo
+echo Ports configured as follows
+[ -e "$PORT_CONFIG_0" ] && echo Port 0 is `cat "$PORT_CONFIG_0"`
+[ -e "$PORT_LCK_0" ] && echo Port 0 lockfile is `cat "$PORT_LCK_0"`
+[ -e "$PORT_CONFIG_1" ] && echo Port 1 is `cat "$PORT_CONFIG_1"`
+[ -e "$PORT_LCK_1" ] && echo Port 1 lockfile is `cat "$PORT_LCK_1"`
+echo done

@@ -1,0 +1,73 @@
+#!/bin/bash
+# serial-mon [port]
+#
+# Generic serial monitor for arduino boards.  We allow two different
+# boards to be connected (at present) so have two possible ports 0, 1
+# for attaching the serial monitor.
+# if no port is supplied, 0 is used.
+#
+# the port lock files are used by the arduino makefiles to ensure that
+# - an upload is not attempted when minicom has the port.
+# - only one serial monitor is running.
+# other programs that communicate on the port should probbaly use the
+# same kind of lockfile mechanism since it is not a good idea to attempt
+# an upload when the port is in use by another program.
+
+# which port are we using?
+port=0
+if [ "$1" == '' ]
+then
+    port=0
+elif [ "$1" == '0' ] 
+then
+    port=0
+elif [ "$1" == '1' ] 
+then 
+    port=1
+else
+    echo "ERROR: Port number '$1' must be 0 or 1"
+    exit 1
+fi
+
+
+if [ "$ARDUINO_UA_ROOT" == '' ]
+then
+    export ARDUINO_UA_ROOT="$HOME"
+fi
+
+# use our version if on OSX, otherwise use the ubuntu version
+# that can be obtained for the os.
+if [ `uname -s` == 'Darwin' ]
+then
+    export MINICOM="$ARDUINO_UA_ROOT/arduino-ua/bin/osx/minicom"
+else
+    export MINICOM=minicom
+fi
+
+# is there even a port?
+if [ ! -e "$HOME/.arduino_port_$port" ] 
+then 
+    echo "ERROR: there is no config file for port $port, running arduino-port-select"
+    arduino-port-select
+    exit 1
+fi
+
+
+# locations of config files
+export PORT=`cat "$HOME/.arduino_port_$port"`
+export LOCK=`cat "$HOME/.arduino_port_lck_$port"`
+echo port $PORT lock $LOCK
+
+if [ -e "$LOCK" ] 
+then
+    echo "ERROR:  lock file $LOCK is present, check if serial-mon or minicom already running.  Remove lock file if not and try again."
+    exit 1
+fi
+
+# create the lock file because it is not created if start minicom in 
+# -o, the 'no init' mode
+# arduino-ua/bin/$OSDIR/minicom -w 0
+# minicom will remove it
+touch "$LOCK"
+# "$MINICOM" -o -w 0
+"$MINICOM" -o -w $port

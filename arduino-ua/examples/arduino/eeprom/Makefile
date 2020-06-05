@@ -4,7 +4,7 @@
 
 # Arduino UA Directory
 ifndef ARDUINO_UA_DIR
-ARDUINO_UA_DIR = $(HOME)/arduino-ua
+ARDUINO_UA_DIR = $(HOME)/Project_Sigma/arduino-ua
 endif
 
 # Board Model Tag

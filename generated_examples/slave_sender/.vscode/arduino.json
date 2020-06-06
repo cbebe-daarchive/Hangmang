@@ -1,0 +1,6 @@
+{
+    "sketch": "slave_sender.ino",
+    "port": "COM3",
+    "board": "arduino:avr:mega",
+    "configuration": "cpu=atmega2560"
+}

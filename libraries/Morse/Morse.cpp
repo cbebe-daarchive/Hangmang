@@ -9,40 +9,42 @@
 const int dot = 1;
 const int dash = 3;
 
-const char letters[] ={ 
-  0x0D, // A
-  0x57, // B
-  0x77, // C
-  0x17, // D
-  0x01, // E
-  0x75, // F
-  0x1F, // G
-  0x55, // H
-  0x05, // I
-  0xFD, // J
-  0x37, // K
-  0x5D, // L
-  0x0F, // M
-  0x07, // N
-  0x3F, // O
-  0x7D, // P
-  0xDF, // Q
-  0x1D, // R
-  0x15, // S
-  0x03, // T
-  0x35, // U
-  0xD5, // V
-  0x3D, // W
-  0xD7, // X
-  0xF7, // Y
-  0x5F, // Z
+// since the alphabet in morse code is formed by at most 4 parts/symbols,
+// each letter is represented by a byte where each dot (01) and dash (11)
+// is contained in two bits in a reversed order
+const unsigned char letters[] ={ 
+  0x0D, // A .-
+  0x57, // B -...
+  0x77, // C -.-.
+  0x17, // D -..
+  0x01, // E .
+  0x75, // F ..-.
+  0x1F, // G --.
+  0x55, // H ....
+  0x05, // I ..
+  0xFD, // J .---
+  0x37, // K -.-
+  0x5D, // L .-..
+  0x0F, // M --
+  0x07, // N -.
+  0x3F, // O ---
+  0x7D, // P .--.
+  0xDF, // Q --.-
+  0x1D, // R .-.
+  0x15, // S ...
+  0x03, // T -
+  0x35, // U ..-
+  0xD5, // V ...-
+  0x3D, // W .--
+  0xD7, // X -..-
+  0xF7, // Y  -.--
+  0x5F, // Z --..
 };
 
-// anything with HH (error digraph) does not exist
+// other symbols are represented using digraphs
+// anything with HH does not have a representative digraph (error prosign is actually EEEEEEEE)
                     //  ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @
 const char* digraphs = "KWRRHHSXHHASWGNGKKHHARGWDURKNROMWMUMSMHTEHTHMSOIONOSKRHHNUHHUDAC";
-
-
 
 Morse::Morse(void (*onCallback)(), void (*offCallback)(), int duration) {
   on = onCallback;
@@ -50,15 +52,18 @@ Morse::Morse(void (*onCallback)(), void (*offCallback)(), int duration) {
   _duration = duration;
 }
 
-void Morse::FlashMessage(char* message, bool nopause) {
+void Morse::flashMessage(char* message, bool nopause) {
+  if (message == "" || message == "HH") return error();
   int space = nopause ? 0 : dash;
-  if (message == "") return error();
-  {
-    int i = 0;
-    while (message[i] != '\0') {
-      readChar(message[i++]);
-      pause(space);
-    }
+  int i = 0;
+  while (message[i] != '\0') {
+    if (!nopause) Serial.print(message[i]);
+    readChar(message[i++]);
+    // letters are separated by three units if they aren't prosigns
+    pause(space);
+  }
+  // to pause after transmitting a prosign
+  if (nopause) {
     pause(dash);
   }
 }
@@ -76,7 +81,7 @@ void Morse::specialSymbols(char character) {
   int idx = character - '!';
   char dg[3];
   getDigraph(dg, idx);
-  FlashMessage(dg, true);
+  flashMessage(dg, true);
 }
 
 void Morse::readChar(char character) {
@@ -87,20 +92,20 @@ void Morse::readChar(char character) {
   // uppercase letters
   if (character <= 'Z') return flashChar((int) letters[character - 'A']);
   // idk why underscore is not with the other symbols
-  if (character == '_') return FlashMessage("UK", true);
+  if (character == '_') return flashMessage("UK", true);
   // lowercase letters
   if (character >= 'a' && character <= 'z') 
-    return flashChar(letters[character - 'a']);
+    return flashChar((int) letters[character - 'a']);
   error();
 }
 
-// send error prosign (HH)
+// send error
 void Morse::error() {
-  FlashMessage("HH", true);
+  flashMessage("EEEE");
 }
 
 void Morse::flashChar(int character) {
-  while (character) {
+  while (character > 0) {
     // get first two bits
     flash(character & dash);
     pause(dot);

@@ -11,21 +11,26 @@ class Morse
 {
   public:
     // Constructor takes two callback functions for on and off signal and the "dot" duration
-    Morse(void (*onCallback)(), void (*offCallback)(), int duration);
-    // Flashes message, set nopause to true to not place pauses between letters
-    void FlashMessage(char* message, bool nopause = false);
+    Morse(void (*onCallback)(), void (*offCallback)(), int duration = 60);
+    // Flashes message, set nopause to true to not place pauses between letters (prosigns)
+    void flashMessage(char* message, bool nopause = false);
   private:
-    // functions for 
+    // checking for special symbols and numbers
     void specialSymbols(char character);
-    void flash(int unit);
-    void pause(int unit);
+    // functions for dealing with single characters
     void readChar(char character);
     void flashChar(int symbol);
     void getDigraph(char* dg, int idx);
     void error();
-    // Callbacks
+
+    // flashes an on signal once
+    void flash(int unit);
+    void pause(int unit);
+
+    // Callbacks for on and off signals
     void (*on)();
     void (*off)();
+    // 60 as default
     int _duration;
 };
 

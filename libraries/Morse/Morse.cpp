@@ -51,7 +51,7 @@ Morse::Morse(void (*onCallback)(), void (*offCallback)(), int duration) {
 }
 
 void Morse::FlashMessage(char* message, bool nopause) {
-  int space = nopause ? dot : dash;
+  int space = nopause ? 0 : dash;
   if (message == "") return error();
   {
     int i = 0;
@@ -59,6 +59,7 @@ void Morse::FlashMessage(char* message, bool nopause) {
       readChar(message[i++]);
       pause(space);
     }
+    pause(dash);
   }
 }
 

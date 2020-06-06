@@ -2,7 +2,10 @@
 
 Just some bois having arduino fun
 
-# RGB
+## RGB
 
-# new year 2020
+## new year 2020
 
+## Arduino Morse Code Transmitter
+
+- An Arduino Library that uses callbacks for on and off signals so you could use anything from LEDs, motors, buzzers, etc. to signal Morse code

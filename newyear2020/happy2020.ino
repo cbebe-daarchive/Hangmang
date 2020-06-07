@@ -147,6 +147,7 @@ void flash2020() {
     delay(300);
   }
 }
+
 void loop() {
   if (!is2020) {
     write4digits(year2019);

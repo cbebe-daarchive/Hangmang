@@ -9,10 +9,12 @@
 const int dot = 1;
 const int dash = 3;
 
+typedef unsigned char byte;
+
 // since the alphabet in morse code is formed by at most 4 parts/symbols,
 // each letter is represented by a byte where each dot (01) and dash (11)
 // is contained in two bits in a reversed order
-const unsigned char letters[] ={ 
+const byte letters[] ={ 
   0x0D, // A .-
   0x57, // B -...
   0x77, // C -.-.
@@ -90,12 +92,12 @@ void Morse::readChar(char character) {
   // special symbols & numbers
   if (character < 'A') return specialSymbols(character);
   // uppercase letters
-  if (character <= 'Z') return flashChar((int) letters[character - 'A']);
+  if (character <= 'Z') return flashChar(letters[character - 'A']);
   // idk why underscore is not with the other symbols
   if (character == '_') return flashMessage("UK", true);
   // lowercase letters
   if (character >= 'a' && character <= 'z') 
-    return flashChar((int) letters[character - 'a']);
+    return flashChar(letters[character - 'a']);
   error();
 }
 
@@ -104,7 +106,7 @@ void Morse::error() {
   flashMessage("EEEE");
 }
 
-void Morse::flashChar(int character) {
+void Morse::flashChar(byte character) {
   while (character > 0) {
     // get first two bits
     flash(character & dash);

@@ -5,10 +5,13 @@ MCUFRIEND_kbv tft;
 
 void setup()
 {
-
+  // set up TFT
   uint16_t ID = tft.readID();
   tft.begin(ID);
   tft.setRotation(1);
 }
 
-void loop() {}
+void loop()
+{
+  tft.fillScreen(TFT_BLACK);
+}

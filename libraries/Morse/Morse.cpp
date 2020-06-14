@@ -1,6 +1,6 @@
 /*
   Morse.cpp - Library for flashing Morse code.
-  Modified to actually print messages and 
+  Modified to actually print messages and use other callbacks
 */
 
 #include "Morse.h"
@@ -48,13 +48,6 @@ const byte letters[] = {
 //  ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @
 const char *digraphs = "KWRRHHSXHHASWGNGKKHHARGWDURKNROMWMUMSMHTEHTHMSOIONOSKRHHNUHHUDAC";
 
-Morse::Morse(void (*onCallback)(), void (*offCallback)(), int duration)
-{
-  on = onCallback;
-  off = offCallback;
-  _duration = duration;
-}
-
 void Morse::flashMessage(char *message, bool nopause)
 {
   if (message == "" || message == "HH")
@@ -63,7 +56,7 @@ void Morse::flashMessage(char *message, bool nopause)
   int i = 0;
   while (message[i] != '\0')
   {
-    if (!nopause)
+    if (!nopause && _displayOnSerial)
       Serial.print(message[i]);
     readChar(message[i++]);
     // letters are separated by three units if they aren't prosigns
@@ -87,6 +80,7 @@ void Morse::specialSymbols(char character)
 {
   if (character == ' ')
     return pause(dash);
+
   int idx = character - '!';
   char dg[3];
   getDigraph(dg, idx);

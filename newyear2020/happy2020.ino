@@ -1,4 +1,5 @@
 #include <Arduino.h>
+
 bool is2020 = false;
 int year2019[4] = {2, 0, 1, 9};
 int year2020[4] = {2, 0, 2, 0};
@@ -156,6 +157,7 @@ void countDown()
       delay(200);
   }
 }
+
 void flash2020()
 {
   for (int i = 0; i < 3; i++)

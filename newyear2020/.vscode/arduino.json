@@ -1,6 +1,0 @@
-{
-    "board": "arduino:avr:mega",
-    "configuration": "cpu=atmega2560",
-    "sketch": "happy2020.ino",
-    "port": "COM3"
-}

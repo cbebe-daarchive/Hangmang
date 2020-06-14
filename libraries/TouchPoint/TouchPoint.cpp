@@ -14,8 +14,8 @@ const uint16_t ts_maxx = 940;
 const uint16_t ts_maxy = 920;
 
 // thresholds to determine if there was a touch
-const uint16_t minpr = 10;
-const uint16_t maxpr = 1000;
+const uint16_t min_pressure = 10;
+const uint16_t max_pressure = 1000;
 
 TouchPoint::TouchPoint(uint16_t width, uint16_t height)
 {
@@ -31,7 +31,7 @@ screenPos TouchPoint::process()
   pinMode(xm, OUTPUT);
   screenPos tp;
   // checks if screen was not touched
-  if (touch.z < minpr || touch.z > maxpr)
+  if (touch.z < min_pressure || touch.z > max_pressure)
   {
     // return an arbitrarily large negative number
     tp.x = untouched;

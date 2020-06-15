@@ -1,6 +1,5 @@
 #include <Arduino.h>
-#include <stdlib.h>
-#include <string.h>
+#include <Adafruit_GFX.h>
 
 const int maxWrongGuesses = 6;
 

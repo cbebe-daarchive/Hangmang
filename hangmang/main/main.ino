@@ -1,5 +1,6 @@
 #include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
+#include "../game.h"
 
 MCUFRIEND_kbv tft;
 
@@ -14,4 +15,5 @@ void setup()
 void loop()
 {
   tft.fillScreen(TFT_BLACK);
+  game();
 }

@@ -19,6 +19,9 @@ void game()
   int guesses = 0, wrongGuesses = 0;
   const char *word = "TESTING";
 
+  while (true)
+    ;
+
   while (wrongGuesses < maxWrongGuesses && !guessed)
   {
     // implement getting user input

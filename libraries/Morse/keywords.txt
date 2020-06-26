@@ -1,4 +1,0 @@
-# Syntax Coloring Map For Morse Code
-
-Morse KEYWORD1
-flashMessage KEYWORD2

@@ -1,3 +1,0 @@
-export PATH="$HOME/arduino-ua/bin:$PATH"
-. ~/.bash_aliases_osx
-. ~/.bashrc

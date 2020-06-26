@@ -1,9 +1,0 @@
-# add the arduino-ua bin to the $PATH
-# add this to your ~/.bash_profile (or make one if not present)
-# it puts the arduino bin into your path at the head of the path.
-
-# Make sure you turn on the "run as login shell" feature for your
-# terminal so that .bash_profile gets run on instantiation of a new terminal.
-
-export PATH="~/arduino-ua/bin":$PATH
-. ~/.bashrc

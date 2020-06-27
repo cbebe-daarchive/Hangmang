@@ -3,4 +3,4 @@
 
 void game();
 
-#endif
+#endif // _GAME_H

@@ -1,6 +1,10 @@
+/*
+  HangMang - A Hangman game for Arduino MEGA 2560 with touch screen
+  Author: Charles Ancheta
+*/
 #include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
-#include "Blank.h"
+
 #include "game.h"
 #include "stickman.h"
 

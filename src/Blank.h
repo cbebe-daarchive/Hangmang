@@ -1,12 +1,12 @@
 #ifndef _BLANK_H
 #define _BLANK_H
 
-#include "Object.h"
+#include "DispObject.h"
 
-class Blank : public Object
+class Blank : public DispObject
 {
 public:
-  Blank(int idx, char letter) : Object(idx, letter){};
+  Blank(int idx, char letter) : DispObject(idx, letter){};
 
   void update(MCUFRIEND_kbv &tft)
   {
@@ -21,4 +21,4 @@ public:
   }
 };
 
-#endif
+#endif //_BLANK_H

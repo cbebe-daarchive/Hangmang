@@ -1,39 +1,18 @@
+/* 
+  stickman.h
+
+  For drawing stickman on screen
+
+  0-6 incrementally draws the stickman
+  else it clears the display
+*/
+
 #ifndef _STICKMAN_H
 #define _STICKMAN_H
 
 #include <MCUFRIEND_kbv.h>
+#include "xypos.h"
 
-void drawStickMan(int part, MCUFRIEND_kbv &tft)
-{
-  switch (part)
-  {
-  case 0:
-    // draw three lines
-    // tft.drawLine()
-    break;
-  case 1:
-    // draw head
-    // tft.drawCircle()
-    break;
-  case 2:
-    // draw a single line for torso
-    // tft.drawLine()
-    break;
-  case 3:
-    // draw a single line for arm
-    break;
-  case 4:
-    // draw a single line for arm
-    break;
-  case 5:
-    // draw a single line for leg
-    break;
-  case 6:
-    // draw a single line for leg
-    break;
-  case 7:
-    // rip :(
-    break;
-  }
-}
+void drawStickMan(int part, MCUFRIEND_kbv &tft);
+
 #endif

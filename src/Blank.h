@@ -2,6 +2,7 @@
 #define _BLANK_H
 
 #include "DispObject.h"
+#include "xypos.h"
 
 class Blank : public DispObject
 {

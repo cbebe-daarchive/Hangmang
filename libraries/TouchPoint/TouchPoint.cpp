@@ -1,32 +1,14 @@
 #include "TouchPoint.h"
 #include <Arduino.h>
 
-// touch screen pins, obtained from the documentation
-const uint8_t yp = A3;
-const uint8_t xm = A2;
-const uint8_t ym = 9;
-const uint8_t xp = 8;
-// calibration data for the touch screen, obtained from documentation
-// the minimum/maximum possible readings from the touch point
-const uint16_t ts_minx = 100;
-const uint16_t ts_miny = 120;
-const uint16_t ts_maxx = 940;
-const uint16_t ts_maxy = 920;
+using namespace tc;
 
-// thresholds to determine if there was a touch
-const uint16_t min_pressure = 10;
-const uint16_t max_pressure = 1000;
-
-TouchPoint::TouchPoint(uint16_t width, uint16_t height)
-{
-  *ts = TouchScreen(xp, yp, xm, ym, 300);
-  _width = width;
-  _height = height;
-}
+TouchScreen ts = TouchScreen(xp, yp, xm, ym, rx);
 
 screenPos TouchPoint::process()
 {
-  TSPoint touch = ts->getPoint();
+  TSPoint touch = ts.getPoint();
+
   pinMode(yp, OUTPUT);
   pinMode(xm, OUTPUT);
   screenPos tp;

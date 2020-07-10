@@ -7,7 +7,6 @@
 #define _ADAFRUIT_TOUCHSCREEN_H_
 #include <stdint.h>
 
-
 #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__) || defined(TEENSYDUINO) || defined(__AVR_ATmega2560__)
 typedef volatile uint8_t RwReg;
 #endif
@@ -18,23 +17,26 @@ typedef volatile uint32 RwReg;
 typedef volatile uint32_t RwReg;
 #endif
 
-#if defined (__AVR__) || defined(TEENSYDUINO) || defined(ARDUINO_ARCH_SAMD)
-  #define USE_FAST_PINIO
+#if defined(__AVR__) || defined(TEENSYDUINO) || defined(ARDUINO_ARCH_SAMD)
+#define USE_FAST_PINIO
 #endif
 
-class TSPoint {
- public:
+class TSPoint
+{
+public:
   TSPoint(void);
   TSPoint(int16_t x, int16_t y, int16_t z);
-  
+
   bool operator==(TSPoint);
   bool operator!=(TSPoint);
 
   int16_t x, y, z;
 };
 
-class TouchScreen {
- public:
+class TouchScreen
+{
+public:
+  TouchScreen(){};
   TouchScreen(uint8_t xp, uint8_t yp, uint8_t xm, uint8_t ym, uint16_t rx);
 
   bool isTouching(void);
@@ -50,7 +52,6 @@ private:
 
   volatile RwReg *xp_port, *yp_port, *xm_port, *ym_port;
   RwReg xp_pin, xm_pin, yp_pin, ym_pin;
-
 };
 
 #endif

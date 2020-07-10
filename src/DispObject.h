@@ -11,6 +11,8 @@
 class DispObject
 {
 public:
+  DispObject() {} // empty constructor
+
   DispObject(int idx, char letter) : idx{idx}, letter{letter}
   {
     isActivated = false;

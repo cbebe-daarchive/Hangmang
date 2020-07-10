@@ -16,7 +16,9 @@ namespace key_consts
 class Key : public DispObject
 {
 public:
-  Key(int idx, char letter) : DispObject(idx, letter){};
+  Key() {} // empty constructor
+
+  Key(int idx, char letter) : DispObject(idx, letter) {}
 
   void update(MCUFRIEND_kbv &tft)
   {
@@ -39,9 +41,10 @@ public:
     {
       tft.setCursor(pos.x + half, pos.y + half);
       tft.setTextSize(2);
+      tft.setTextColor(TFT_BLACK);
       tft.print(letter);
     }
-  };
+  }
 };
 
 #endif

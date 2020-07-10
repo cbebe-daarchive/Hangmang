@@ -22,7 +22,7 @@ namespace stickman_consts
   const int16_t feet_y = 170;
   // face constants
   const int16_t face_y = neck_y - head_r;
-  const int16_t face_s = 3;
+  const int16_t face_s = 5;
   const int16_t eye_w = 5;
   const int16_t mouth_r = 5;
 }; // namespace stickman_consts
@@ -67,7 +67,7 @@ void drawStickMan(int part, MCUFRIEND_kbv &tft)
     tft.drawCircle(centre_x, face_y + face_s + mouth_r, mouth_r, TFT_WHITE);
     break;
   default: // clear the displayed stickman
-    tft.fillRect(base.x, pole.y, base_w, base.y - pole.y, TFT_WHITE);
+    tft.fillRect(base.x, pole.y, base_w, base.y - pole.y + 1, TFT_BLACK);
     break;
   }
 }
